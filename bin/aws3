@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require '../lib/cloud_bucket.rb'
+require 'pp'
+
+@name = 'test.selah.clockwork.net'
+objs =  CloudBucket[@name].objects

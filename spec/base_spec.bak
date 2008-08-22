@@ -1,0 +1,51 @@
+require 'rubygems'
+require 'spec'
+require 'lib/base.rb'
+
+describe AStore::Base do
+  
+  before :each do
+    @aws3 = AStore::Base.new 'org.selahb'
+    @aws3.bucket << 'test'
+  end
+  
+  it "should fail with bad credentials" do
+    pending("Get this one working")
+    # @aws3.disconnect
+    # lambda { AStore::Base.new('org.selahb', 'one', 'two') }.should raise_error
+  end
+  
+  it "should fall back to evironment variables when given no arguments" do
+    lambda { AStore::Base.new 'org.selahb' }.should_not raise_error
+  end
+  
+  it "should provide a list of buckets" do
+    aws = AStore::Base.new 'org.selahb'
+    aws.buckets.should be_instance_of Array
+  end
+  
+  it "should get a bucket by name" do
+    @aws3['test'].should be_kind_of AWS::S3::Bucket
+  end
+  
+  it "should disconnect" do
+    store = AStore::Base.new('org.selahb')
+    store.disconnect
+    store.connected?.should be false
+  end
+  
+  it "should list bucket objects" do
+    @aws3['test'].objects.should be_instance_of Array
+  end
+  
+  it "should add a file to a bucket" do
+    @aws3['test'].
+  end
+  
+  after :each do
+    if @aws3 && @aws3.connected?
+      @aws3.bucket.delete 'test'
+      @aws3.disconnect
+    end
+  end
+end

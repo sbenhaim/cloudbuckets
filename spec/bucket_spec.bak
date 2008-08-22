@@ -1,0 +1,34 @@
+require 'rubygems'
+require 'spec'
+require 'lib/base.rb'
+require 'lib/bucket.rb'
+
+describe AStore::Bucket do
+  
+  before :each do
+  end
+  
+  it "should initialize successfully with service and bucket provided" do
+    lambda { bucket = AStore::Bucket.new( @aws.aws3, @aws.namespace) }.should_not raise_error
+  end
+  
+  it "should provide a list of buckets names minus namespacing" do
+    pending("get this stuff working")
+    # @bucket << 'test'
+    # @bucket.list.should be_instance_of Array
+    # @bucket.list.should satisfy { |obj| obj.include? 'test' }
+  end
+  
+  it "should create a new bucket" do
+    @bucket << 'test'
+    @bucket['test'].should be_instance_of AWS::S3::Bucket
+  end
+  
+  it "should delete a bucket" do
+    @bucket.delete 'test'
+  end
+  
+  after :each do
+    @bucket.delete 'test'
+  end
+end
